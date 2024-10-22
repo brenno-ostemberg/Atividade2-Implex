@@ -1,21 +1,23 @@
-import random 
-import time 
-
-# As implementações ainda não estao correta, é só uma base
+import random
+import time
+import numpy
 
 def gerar_precos(n):
     precos = [random.randint(1, n) for i in range(1, n+1)]
     precos.sort()
     return precos
 
-def programacao_dinamica(precos, n):
-    r = [0] * (n+1)
-    for j in range(1, n+1):
-        q = -1
-        for i in range(1, j+1):
-            q = max(q, precos[i-1] + r[j-i])
-        r[j] = q
-    return r[n]
+def dinamica(precos, n):
+
+    if n == 0:
+        return 0
+
+    q = float("-inf")
+ 
+    for i in range(1, n + 1):
+        q = max(q, precos[i - 1] + dinamica(precos, n - i))
+
+    return q
 
 def guloso(precos, n):
     precos.sort(reverse=True)
@@ -33,7 +35,7 @@ def executar_experimentos(inc, fim, stp):
         precos = gerar_precos(n)
 
         inicio_pd = time.time()
-        valor_pd = programacao_dinamica(precos, n)
+        valor_pd = dinamica(precos, n)
         tempo_pd = time.time() - inicio_pd
         
         inicio_greedy = time.time()
