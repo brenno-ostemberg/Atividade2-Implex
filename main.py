@@ -7,7 +7,7 @@ def gerar_precos(n):
     precos.sort()
     return precos
 
-# Utilizando Bottom-Up - Cut Rod
+# Implementação da Programação Dinâmica usando estratégia: Bottom-Up 
 def dinamica(precos, n):
 
     r = [0] * (n+1)
@@ -23,19 +23,25 @@ def dinamica(precos, n):
 
     return r[n]
 
+# Implementação do Algoritmo Guloso
 def guloso(precos, n):
-    precos.sort(reverse=True)
+
+    densidades = [(precos[i] / (i + 1), i + 1) for i in range(n)]
+    densidades.sort(reverse=True)
+
     valor_total = 0
-    while n > 0:
-        for preco in precos:
-            if preco <= n:
-                valor_total += preco
-                n -= preco
-                break
+    tamanho_restante = n 
+
+    for densidade, tamanho in densidades:
+
+        while tamanho_restante >= tamanho:
+            valor_total += precos[tamanho-1]
+            tamanho_restante -= tamanho
+        
     return valor_total
 
-precos = [1, 5, 8, 9, 10, 17, 17, 20]
-tamanho = 8
+precos = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
+tamanho = 4
 resultado_dinamico = dinamica(precos, tamanho)
 resultado_guloso = guloso(precos, tamanho)
 
