@@ -7,17 +7,21 @@ def gerar_precos(n):
     precos.sort()
     return precos
 
+# Utilizando Bottom-Up - Cut Rod
 def dinamica(precos, n):
 
-    if n == 0:
-        return 0
+    r = [0] * (n+1)
 
-    q = float("-inf")
- 
-    for i in range(1, n + 1):
-        q = max(q, precos[i - 1] + dinamica(precos, n - i))
+    for j in range(1, n+1):
 
-    return q
+        q = float('-inf')
+
+        for i in range(1, j+1):
+            q = max(q, precos[i-1] + r[j-i])
+
+        r[j] = q
+
+    return r[n]
 
 def guloso(precos, n):
     precos.sort(reverse=True)
@@ -30,24 +34,32 @@ def guloso(precos, n):
                 break
     return valor_total
 
-def executar_experimentos(inc, fim, stp): 
-    for n in range(inc, fim+1, stp):
-        precos = gerar_precos(n)
+precos = [1, 5, 8, 9, 10, 17, 17, 20]
+tamanho = 8
+resultado_dinamico = dinamica(precos, tamanho)
+resultado_guloso = guloso(precos, tamanho)
 
-        inicio_pd = time.time()
-        valor_pd = dinamica(precos, n)
-        tempo_pd = time.time() - inicio_pd
-        
-        inicio_greedy = time.time()
-        valor_greedy = guloso(precos, n)
-        tempo_greedy = time.time() - inicio_greedy
-        
-        porcentagem = (valor_greedy / valor_pd) * 100
-        
-        print(f"{n}: vPD={valor_pd} tPD={tempo_pd:.6f}s | vGreedy={valor_greedy} tGreedy={tempo_greedy:.6f}s | %={porcentagem:.2f}%")
+print(f"Resultado Dinâmico: {resultado_dinamico}")
+print(f"Resultado Guloso: {resultado_guloso}")
 
-inc = 1000
-fim = 20000
-spt = 1000
+#def executar_experimentos(inc, fim, stp): 
+#    for n in range(inc, fim+1, stp):
+#        precos = gerar_precos(n)
+#
+#        inicio_pd = time.time()
+#        valor_pd = dinamica(precos, n)
+#        tempo_pd = time.time() - inicio_pd
+#       
+#        inicio_greedy = time.time()
+#        valor_greedy = guloso(precos, n)
+#        tempo_greedy = time.time() - inicio_greedy
+#        
+#        porcentagem = (valor_greedy / valor_pd) * 100
+#        
+#        print(f"{n}: vPD={valor_pd} tPD={tempo_pd:.6f}s | vGreedy={valor_greedy} tGreedy={tempo_greedy:.6f}s | %={porcentagem:.2f}%")
 
-executar_experimentos(inc, fim, spt)
+#inc = 1000
+#fim = 20000
+#spt = 1000
+
+#executar_experimentos(inc, fim, spt)
