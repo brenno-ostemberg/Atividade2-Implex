@@ -2,8 +2,9 @@ import random
 import time
 import numpy
 
+# Função para gerar preços aleatórios
 def gerar_precos(n):
-    precos = [random.randint(1, n) for i in range(1, n+1)]
+    precos = [random.randint(1, 3 * n) for i  in range(1, n+1)]
     precos.sort()
     return precos
 
@@ -40,14 +41,17 @@ def guloso(precos, n):
         
     return valor_total
 
-#precos = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
-#tamanho = 4
-#resultado_dinamico = dinamica(precos, tamanho) # Resultado Esperado = 10
-#resultado_guloso = guloso(precos, tamanho) # Resultado Esperado = 9
+"""
+precos = [1, 20, 33, 36]
+tamanho = 4
+resultado_dinamico = dinamica(precos, tamanho) # Esperado: 40
+resultado_guloso = guloso(precos, tamanho) # Esperado: 34
 
-#print(f"Resultado Dinâmico: {resultado_dinamico}")
-#print(f"Resultado Guloso: {resultado_guloso}")
+print(f"Resultado Dinâmico: {resultado_dinamico}")
+print(f"Resultado Guloso: {resultado_guloso}")
+"""
 
+# Execução dos experimentos
 def executar_experimentos(inc, fim, stp):
     print(" n     vDP  tDP      vGreedy tGreedy       %")
     print("-" * 60)
@@ -68,8 +72,10 @@ def executar_experimentos(inc, fim, stp):
 
         print(f"{n:5d} {vDP:5d} {tDP:8.6f} {vGreedy:7d} {tGreedy:8.6f} {porcentagem:6.2f}")
 
+# Parâmetros dos experimentos
 inc = 1000
-fim = 3000
+fim = 15000
 spt = 1000
 
+# Execução dos experimentos
 executar_experimentos(inc, fim, spt)
