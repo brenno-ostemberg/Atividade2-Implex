@@ -40,32 +40,36 @@ def guloso(precos, n):
         
     return valor_total
 
-precos = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
-tamanho = 4
-resultado_dinamico = dinamica(precos, tamanho)
-resultado_guloso = guloso(precos, tamanho)
+#precos = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
+#tamanho = 4
+#resultado_dinamico = dinamica(precos, tamanho) # Resultado Esperado = 10
+#resultado_guloso = guloso(precos, tamanho) # Resultado Esperado = 9
 
-print(f"Resultado Dinâmico: {resultado_dinamico}")
-print(f"Resultado Guloso: {resultado_guloso}")
+#print(f"Resultado Dinâmico: {resultado_dinamico}")
+#print(f"Resultado Guloso: {resultado_guloso}")
 
-#def executar_experimentos(inc, fim, stp): 
-#    for n in range(inc, fim+1, stp):
-#        precos = gerar_precos(n)
-#
-#        inicio_pd = time.time()
-#        valor_pd = dinamica(precos, n)
-#        tempo_pd = time.time() - inicio_pd
-#       
-#        inicio_greedy = time.time()
-#        valor_greedy = guloso(precos, n)
-#        tempo_greedy = time.time() - inicio_greedy
-#        
-#        porcentagem = (valor_greedy / valor_pd) * 100
-#        
-#        print(f"{n}: vPD={valor_pd} tPD={tempo_pd:.6f}s | vGreedy={valor_greedy} tGreedy={tempo_greedy:.6f}s | %={porcentagem:.2f}%")
+def executar_experimentos(inc, fim, stp):
+    print(" n     vDP  tDP      vGreedy tGreedy       %")
+    print("-" * 60)
 
-#inc = 1000
-#fim = 20000
-#spt = 1000
+    for n in range(inc, fim + 1, stp):
 
-#executar_experimentos(inc, fim, spt)
+        precos = gerar_precos(n)
+
+        inicio = time.time()
+        vDP = dinamica(precos, n)
+        tDP = time.time() - inicio
+
+        inicio = time.time()
+        vGreedy = guloso(precos, n)
+        tGreedy = time.time() - inicio
+
+        porcentagem = (vGreedy / vDP) * 100
+
+        print(f"{n:5d} {vDP:5d} {tDP:8.6f} {vGreedy:7d} {tGreedy:8.6f} {porcentagem:6.2f}")
+
+inc = 1000
+fim = 3000
+spt = 1000
+
+executar_experimentos(inc, fim, spt)
